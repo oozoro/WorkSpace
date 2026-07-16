@@ -3,11 +3,13 @@
 # This file only tracks *where to get* each model and how to use it.
 # Actual weight files (.safetensors) are never committed to git — see
 # models/.gitignore. Run `models/download.sh` on a machine with network
-# access to civitai.com / huggingface.co to fetch them.
+# access to civitai.com to fetch them.
 #
-# For each entry with source.url still set to null, open the model's page
-# on Civitai/HuggingFace, grab the direct download link (or the
-# civitai model_id + version_id), and fill it in before running the script.
+# model_id is the numeric id in the civitai.com/models/<id>/... URL and has
+# been verified against the live model pages. version_name is matched
+# against the Civitai API at download time, so the script always resolves
+# the correct file even if version ids drift; version_id is a best-effort
+# hint used as a fallback when name matching fails.
 
 models:
   - id: janku-v6
@@ -15,14 +17,16 @@ models:
     role: primary-niji-style
     source:
       platform: civitai
-      model_id: null
-      version_id: null
-      url: null
+      model_id: 1277670
+      version_name: "v6.0"
+      version_id: 2358314
+      page: https://civitai.com/models/1277670/janku-trained-chenkin-and-noobai-rouwei-illustrious-xl
     filename: janku-v6.safetensors
     notes: >
       niji系の発色に一番近い候補。NoobAI+RouWei+Illustriousの統合トレーニング。
       VAE内蔵、euler/28steps/CFG5でそのまま動く。prompt asset library
       (15カテゴリYML) との相性が良い想定。
+      ※v6.0はEarly Access期間中はCivitaiのBuzz購入が必要な場合あり。
     recommended_settings:
       sampler: euler
       steps: 28
@@ -34,12 +38,14 @@ models:
     role: style-lora-base
     source:
       platform: civitai
-      model_id: null
+      model_id: 2167995
+      version_name: "v0.5"
       version_id: null
-      url: null
-    filename: chenkin-noob-xl-ckxl.safetensors
+      page: https://civitai.com/models/2167995/chenkin-noob-xl-ckxl
+    filename: chenkin-noob-xl-ckxl-v0.5.safetensors
     notes: >
-      2026年1月までのdanbooruデータ追加学習で、キャラ知識が最新。
+      2026年1月までのdanbooruデータ追加学習で、キャラ知識が最新
+      (v0.5: 9M danbooru + 2.17Mゲームコンセプトアート、計12M)。
       素の絵柄にクセがあるため単体使用は避け、画風LoRA(Eagle資産由来)を
       焼く/組み合わせる前提の土台モデルとして使う。
 
@@ -48,36 +54,49 @@ models:
     role: high-quality-portrait
     source:
       platform: civitai
-      model_id: null
-      version_id: null
-      url: null
+      model_id: 1981990
+      version_name: "v3"
+      version_id: 2243567
+      page: https://civitai.com/models/1981990/endlustria-lumica
     filename: endlustria-lumica-v3.safetensors
     notes: >
       実運用者評で「綺麗さで一番」。凡庸=死の基準に合う高品質イラスト路線。
-      ポートレート寄りの仕上がりが強い。
+      ポートレート寄りの仕上がりが強い。SD1.5系endlessMixの思想を
+      Illustrious系に継承したマージモデル (6.46GB)。
 
   - id: perfect-deliberate
     name: "PerfectDeliberate"
     role: texture-detail
     source:
       platform: civitai
-      model_id: null
+      model_id: 24350
+      version_name: "v9.0"
       version_id: null
-      url: null
-    filename: perfect-deliberate.safetensors
+      page: https://civitai.com/models/24350/perfectdeliberate
+    filename: perfect-deliberate-v9.safetensors
     notes: >
       繊細な光の回り込みと透明感のある肌表現、髪のツヤ・瞳のハイライトまで
-      丁寧。瑠華のようなキャラクターの質感表現向き。
+      丁寧。瑠華のようなキャラクターの質感表現向き。v9.0はIllustriousベース。
+    recommended_settings:
+      resolution: "832x1216 / 960x1440 / 1024x1024 / 1024x1536"
+      cfg_scale: "5-8"
+      sampler: "euler_a or dpmpp"
 
   - id: wai-illustrious-sdxl
     name: "WAI-Illustrious-SDXL"
     role: safe-baseline
     source:
       platform: civitai
-      model_id: null
-      version_id: null
-      url: null
-    filename: wai-illustrious-sdxl.safetensors
+      model_id: 827184
+      version_name: "v15.0"
+      version_id: 2167369
+      page: https://civitai.com/models/827184
+    filename: wai-illustrious-sdxl-v15.safetensors
     notes: >
       版権キャラ再現性が高く、頻繁に更新される。素のプロンプト追従性が良い
       「安全牌」枠。他4モデルの比較基準として置いておく。
+    recommended_settings:
+      sampler: euler_a
+      steps: "25-40"
+      cfg_scale: "5-7"
+      resolution: ">=1024x1024"
