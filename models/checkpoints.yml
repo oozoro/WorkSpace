@@ -1,0 +1,83 @@
+# Stable Diffusion checkpoint registry.
+#
+# This file only tracks *where to get* each model and how to use it.
+# Actual weight files (.safetensors) are never committed to git — see
+# models/.gitignore. Run `models/download.sh` on a machine with network
+# access to civitai.com / huggingface.co to fetch them.
+#
+# For each entry with source.url still set to null, open the model's page
+# on Civitai/HuggingFace, grab the direct download link (or the
+# civitai model_id + version_id), and fill it in before running the script.
+
+models:
+  - id: janku-v6
+    name: "JANKU v6.0"
+    role: primary-niji-style
+    source:
+      platform: civitai
+      model_id: null
+      version_id: null
+      url: null
+    filename: janku-v6.safetensors
+    notes: >
+      niji系の発色に一番近い候補。NoobAI+RouWei+Illustriousの統合トレーニング。
+      VAE内蔵、euler/28steps/CFG5でそのまま動く。prompt asset library
+      (15カテゴリYML) との相性が良い想定。
+    recommended_settings:
+      sampler: euler
+      steps: 28
+      cfg_scale: 5
+      vae: built-in
+
+  - id: chenkin-noob-xl-ckxl
+    name: "chenkin (noob-xl-ckxl)"
+    role: style-lora-base
+    source:
+      platform: civitai
+      model_id: null
+      version_id: null
+      url: null
+    filename: chenkin-noob-xl-ckxl.safetensors
+    notes: >
+      2026年1月までのdanbooruデータ追加学習で、キャラ知識が最新。
+      素の絵柄にクセがあるため単体使用は避け、画風LoRA(Eagle資産由来)を
+      焼く/組み合わせる前提の土台モデルとして使う。
+
+  - id: endlustria-lumica-v3
+    name: "endlustria-LUMICA v3"
+    role: high-quality-portrait
+    source:
+      platform: civitai
+      model_id: null
+      version_id: null
+      url: null
+    filename: endlustria-lumica-v3.safetensors
+    notes: >
+      実運用者評で「綺麗さで一番」。凡庸=死の基準に合う高品質イラスト路線。
+      ポートレート寄りの仕上がりが強い。
+
+  - id: perfect-deliberate
+    name: "PerfectDeliberate"
+    role: texture-detail
+    source:
+      platform: civitai
+      model_id: null
+      version_id: null
+      url: null
+    filename: perfect-deliberate.safetensors
+    notes: >
+      繊細な光の回り込みと透明感のある肌表現、髪のツヤ・瞳のハイライトまで
+      丁寧。瑠華のようなキャラクターの質感表現向き。
+
+  - id: wai-illustrious-sdxl
+    name: "WAI-Illustrious-SDXL"
+    role: safe-baseline
+    source:
+      platform: civitai
+      model_id: null
+      version_id: null
+      url: null
+    filename: wai-illustrious-sdxl.safetensors
+    notes: >
+      版権キャラ再現性が高く、頻繁に更新される。素のプロンプト追従性が良い
+      「安全牌」枠。他4モデルの比較基準として置いておく。
