@@ -20,7 +20,19 @@ lives.
 
 ## Running the download
 
-Requires `curl`, `jq`, and `yq` (https://github.com/mikefarah/yq).
+**Windows (PowerShell)** — no extra tools needed:
+
+```powershell
+$env:CIVITAI_API_KEY = "your-key"   # civitai.com > Account Settings > API Keys
+.\models\download.ps1               # fetch all five models
+.\models\download.ps1 janku-v6      # or just one, by id
+```
+
+If scripts are blocked by execution policy, run it as:
+`powershell -ExecutionPolicy Bypass -File .\models\download.ps1`
+
+**Linux/macOS (bash)** — requires `curl`, `jq`, and `yq`
+(https://github.com/mikefarah/yq):
 
 ```bash
 export CIVITAI_API_KEY=...   # civitai.com > Account Settings > API Keys
