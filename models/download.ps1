@@ -66,7 +66,10 @@ foreach ($m in $Models) {
 
     $url = "https://civitai.com/api/download/models/$versionId"
     Write-Host "downloading: $($m.id) (version $versionId) -> $dest"
-    & curl.exe -L --fail --progress-bar -H "Authorization: Bearer $ApiKey" -o $dest $url
+    # --ssl-no-revoke: Windows schannel's revocation check often can't reach
+    # the CRL/OCSP endpoint (AV/corporate network interference) and fails
+    # the whole TLS handshake with CRYPT_E_NO_REVOCATION_CHECK otherwise.
+    & curl.exe -L --fail --progress-bar --ssl-no-revoke -H "Authorization: Bearer $ApiKey" -o $dest $url
     if ($LASTEXITCODE -ne 0) {
         Write-Warning "error: download failed for $($m.id) ($url)"
         Write-Warning "       (early-access versions may need to be unlocked on the model page first)"
